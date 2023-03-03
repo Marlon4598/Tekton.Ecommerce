@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.DTO\Tekton.Ecommerce.Application.DTO.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.Interface\Tekton.Ecommerce.Application.Interface.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.Validator\Tekton.Ecommerce.Application.Validator.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Entity\Tekton.Ecommerce.Domain.Entity.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Interface\Tekton.Ecommerce.Domain.Interface.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Transversal.Common\Tekton.Ecommerce.Transversal.Common.csproj" />
+  </ItemGroup>
+
+</Project>

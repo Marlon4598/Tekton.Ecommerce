@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.DTO\Tekton.Ecommerce.Application.DTO.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.Interface\Tekton.Ecommerce.Application.Interface.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.Main\Tekton.Ecommerce.Application.Main.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Application.Validator\Tekton.Ecommerce.Application.Validator.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Core\Tekton.Ecommerce.Domain.Core.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Entity\Tekton.Ecommerce.Domain.Entity.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Interface\Tekton.Ecommerce.Domain.Interface.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Infrastructure.Data\Tekton.Ecommerce.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Infrastructure.Interface\Tekton.Ecommerce.Infrastructure.Interface.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Infrastructure.Repository\Tekton.Ecommerce.Infrastructure.Repository.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Transversal.Common\Tekton.Ecommerce.Transversal.Common.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Transversal.Logging\Tekton.Ecommerce.Transversal.Logging.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Transversal.Mapper\Tekton.Ecommerce.Transversal.Mapper.csproj" />
+  </ItemGroup>
+
+</Project>

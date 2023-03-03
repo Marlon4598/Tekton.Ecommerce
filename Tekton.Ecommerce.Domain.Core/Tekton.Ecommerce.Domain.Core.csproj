@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Entity\Tekton.Ecommerce.Domain.Entity.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Domain.Interface\Tekton.Ecommerce.Domain.Interface.csproj" />
+    <ProjectReference Include="..\Tekton.Ecommerce.Infrastructure.Interface\Tekton.Ecommerce.Infrastructure.Interface.csproj" />
+  </ItemGroup>
+
+</Project>
