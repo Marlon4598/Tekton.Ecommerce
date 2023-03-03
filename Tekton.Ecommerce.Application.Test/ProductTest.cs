@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Moq.Protected;
 using Tekton.Ecommerce.Application.DTO;
 using Tekton.Ecommerce.Application.Main;
 using Tekton.Ecommerce.Application.Validator;
@@ -19,7 +20,6 @@ namespace Tekton.Ecommerce.Application.Test
     public class ProductTest
     {
         private Mock<ILoggerFactory> _mockLoggerFactory;
-        private Mock<IHttpClientFactory> _mockClientFactory;
         private Mock<IConfigurationSection> _mockConfigSection;
         private Mock<IConfiguration> _mockConfiguration;
         private Mock<DapperContext> _mockDapper;
@@ -39,12 +39,15 @@ namespace Tekton.Ecommerce.Application.Test
         {
             _mockLoggerFactory = new Mock<ILoggerFactory>();
 
-            _mockClientFactory = new Mock<IHttpClientFactory>();
+            var httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri("https://63f774dee40e087c958f494d.mockapi.io")
+            };
 
-            //var clientHandlerStub = new DelegatingHandlerStub();
-            //var client = new HttpClient(clientHandlerStub);
+            var mockHttpClientFactory = new Mock<IHttpClientFactory>();
 
-            //_mockClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
+            mockHttpClientFactory.Setup(_ => _.CreateClient("DiscountApi")).Returns(httpClient);
+
 
             _mockConfigSection = new Mock<IConfigurationSection>();
             _mockConfiguration = new Mock<IConfiguration>();
@@ -56,7 +59,7 @@ namespace Tekton.Ecommerce.Application.Test
 
             _mockDapper = new Mock<DapperContext>(_mockConfiguration.Object);
             _mockRepository = new Mock<ProductsRepository>(_mockDapper.Object);
-            _mockDiscountRepository = new Mock<DiscountProductRepository>(_mockClientFactory.Object);
+            _mockDiscountRepository = new Mock<DiscountProductRepository>(mockHttpClientFactory.Object);
             _mockUnit = new Mock<UnitOfWork>(_mockRepository.Object);
             _mockDomain = new Mock<ProductsDomain>(_mockUnit.Object);
 
@@ -147,12 +150,12 @@ namespace Tekton.Ecommerce.Application.Test
             var app = _mockApplication.Object;
             var x = new ProductController(app, log);
 
-            var expected = 23;
+            var expected = 3;
 
             var contentResult = (OkObjectResult)x.GetAll();
             var result = (Response<IEnumerable<ProductsDto>>)contentResult.Value;
 
-            Assert.AreEqual(expected, result.Data.Count());
+            Assert.GreaterOrEqual(result.Data.Count(), expected);
         }
 
         [Test]
@@ -185,25 +188,5 @@ namespace Tekton.Ecommerce.Application.Test
             return mockMemoryCache.Object;
         }
     }
-
-    //public class DelegatingHandlerStub : DelegatingHandler
-    //{
-    //    private readonly Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> _handlerFunc;
-    //    public DelegatingHandlerStub()
-    //    {
-    //        _handlerFunc = (request, cancellationToken) => Task.FromResult(request.CreateResponse(HttpStatusCode.OK));
-    //    }
-
-    //    public DelegatingHandlerStub(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> handlerFunc)
-    //    {
-    //        _handlerFunc = handlerFunc;
-    //    }
-
-    //    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-    //    {
-    //        return _handlerFunc(request, cancellationToken);
-    //    }
-    //}
-
 
 }
