@@ -1,10 +1,11 @@
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Moq.Protected;
 using Tekton.Ecommerce.Application.DTO;
 using Tekton.Ecommerce.Application.Main;
 using Tekton.Ecommerce.Application.Validator;
@@ -75,9 +76,9 @@ namespace Tekton.Ecommerce.Application.Test
 
             object expected=null;
             var _mockMemory = MockMemoryCacheService.GetMemoryCache(expected);
+
             _mockValidator = new Mock<ProductDtoValidator>();
 
-            
             _mockApplication = new Mock<ProductsApplication>(_mockDomain.Object, _mapper, _mockDiscount.Object, _mockLogger.Object, _mockValidator.Object, _mockMemory);
             _mockLog = new Mock<ILogger<ProductController>>();
         }
@@ -172,8 +173,6 @@ namespace Tekton.Ecommerce.Application.Test
 
             Assert.AreEqual(expected, result.Data.Name);
         }
-
-
 
     }
 

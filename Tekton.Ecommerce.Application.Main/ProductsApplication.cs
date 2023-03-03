@@ -1,14 +1,12 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.Extensions.Caching.Memory;
 using Tekton.Ecommerce.Application.DTO;
 using Tekton.Ecommerce.Application.Interface;
+using Tekton.Ecommerce.Application.Validator;
 using Tekton.Ecommerce.Domain.Entity;
 using Tekton.Ecommerce.Domain.Interface;
 using Tekton.Ecommerce.Transversal.Common;
-using Tekton.Ecommerce.Application.Validator;
-using Microsoft.Extensions.Caching.Memory;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 
 namespace Tekton.Ecommerce.Application.Main
@@ -20,10 +18,10 @@ namespace Tekton.Ecommerce.Application.Main
         private readonly IDiscountProductDomain _discountProductDomain;
         private readonly IMemoryCache _memoryCache;
         private readonly IAppLogger<ProductsApplication> _logger;
-        private readonly ProductDtoValidator _productDtoValidator;
+        private readonly AbstractValidator<ProductsDto> _productDtoValidator;
 
 
-        public ProductsApplication(IProductsDomain productsDomain, IMapper mapper, IDiscountProductDomain discountProductDomain, IAppLogger<ProductsApplication> logger, ProductDtoValidator productDtoValidator, IMemoryCache memoryCache)
+        public ProductsApplication(IProductsDomain productsDomain, IMapper mapper, IDiscountProductDomain discountProductDomain, IAppLogger<ProductsApplication> logger, AbstractValidator<ProductsDto> productDtoValidator, IMemoryCache memoryCache)
         {
             _productsDomain = productsDomain;
             _mapper = mapper;
@@ -40,13 +38,17 @@ namespace Tekton.Ecommerce.Application.Main
             var response = new Response<bool>();
             try
             {
-                //var validation = _productDtoValidator.Validate(new ProductsDto() { Name = productsDto.Name, Stock = productsDto.Stock, Description = productsDto.Description, Price = productsDto.Price });
-                //if (!validation.IsValid)
-                //{
-                //    response.Message = "Errores de Validación";
-                //    response.Errors = validation.Errors;
-                //    return response;
-                //}
+                var validation = _productDtoValidator.Validate(new ProductsDto() { Name = productsDto.Name, Stock = productsDto.Stock, Description = productsDto.Description, Price = productsDto.Price });
+
+                if (validation != null)
+                {
+                    if (!validation.IsValid)
+                    {
+                        response.Message = "Errores de Validación";
+                        response.Errors = validation.Errors;
+                        return response;
+                    }
+                }
 
                 var products = _mapper.Map<Products>(productsDto);
                 response.Data = _productsDomain.Insert(products);
@@ -75,13 +77,17 @@ namespace Tekton.Ecommerce.Application.Main
             var response = new Response<bool>();
             try
             {
-                //var validation = _productDtoValidator.Validate(new ProductsDto() { Name = productsDto.Name, Stock = productsDto.Stock, Description = productsDto.Description, Price = productsDto.Price });
-                //if (!validation.IsValid)
-                //{
-                //    response.Message = "Errores de Validación";
-                //    response.Errors = validation.Errors;
-                //    return response;
-                //}
+                var validation = _productDtoValidator.Validate(new ProductsDto() { Name = productsDto.Name, Stock = productsDto.Stock, Description = productsDto.Description, Price = productsDto.Price });
+
+                if (validation != null)
+                {
+                    if (!validation.IsValid)
+                    {
+                        response.Message = "Errores de Validación";
+                        response.Errors = validation.Errors;
+                        return response;
+                    }
+                }
 
                 var products = _mapper.Map<Products>(productsDto);
                 response.Data = _productsDomain.Update(products);
@@ -214,12 +220,17 @@ namespace Tekton.Ecommerce.Application.Main
             try
             {
                 var validation = _productDtoValidator.Validate(new ProductsDto() { Name = productsDto.Name, Stock = productsDto.Stock, Description = productsDto.Description, Price = productsDto.Price });
-                if (!validation.IsValid)
+
+                if (validation != null)
                 {
-                    response.Message = "Errores de Validación";
-                    response.Errors = validation.Errors;
-                    return response;
+                    if (!validation.IsValid)
+                    {
+                        response.Message = "Errores de Validación";
+                        response.Errors = validation.Errors;
+                        return response;
+                    }
                 }
+
                 var products = _mapper.Map<Products>(productsDto);
                 response.Data = await _productsDomain.InsertAsync(products);
                 var end = DateTime.Now;
@@ -248,12 +259,17 @@ namespace Tekton.Ecommerce.Application.Main
             try
             {
                 var validation = _productDtoValidator.Validate(new ProductsDto() { Name = productsDto.Name, Stock = productsDto.Stock, Description = productsDto.Description, Price = productsDto.Price });
-                if (!validation.IsValid)
+
+                if (validation != null)
                 {
-                    response.Message = "Errores de Validación";
-                    response.Errors = validation.Errors;
-                    return response;
+                    if (!validation.IsValid)
+                    {
+                        response.Message = "Errores de Validación";
+                        response.Errors = validation.Errors;
+                        return response;
+                    }
                 }
+
                 var products = _mapper.Map<Products>(productsDto);
                 response.Data = await _productsDomain.UpdateAsync(products);
                 var end = DateTime.Now;

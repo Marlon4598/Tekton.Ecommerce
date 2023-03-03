@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Tekton.Ecommerce.Application.DTO;
 
 namespace Tekton.Ecommerce.Application.Validator

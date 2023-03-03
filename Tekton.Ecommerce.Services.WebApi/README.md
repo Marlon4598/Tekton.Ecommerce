@@ -3,6 +3,8 @@
 # Test Tekton
 Presentamos la creación de un Rest API en NET Core 6.0. Aquí su descripción:
 
+* Se adjunta al proyecto el archivo base de datos.sql, el cual contiene la creación de tabla, procedimientos almecenados y registro de datos correspondientes.
+
 * La documentacion de la API se realizó usando swagger.
 
 * Los patrones de diseño aplicados son el Repository y Unit of Work.

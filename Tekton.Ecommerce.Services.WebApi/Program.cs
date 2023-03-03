@@ -12,6 +12,9 @@ using Tekton.Ecommerce.Transversal.Mapper;
 using Tekton.Ecommerce.Services.WebApi.Modules.Validator;
 using Microsoft.Extensions.Caching.Memory;
 using System.Runtime.CompilerServices;
+using FluentValidation;
+using Tekton.Ecommerce.Application.DTO;
+using Tekton.Ecommerce.Application.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,7 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<IProductsApplication, ProductsApplication>();
 builder.Services.AddScoped<IProductsDomain, ProductsDomain>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+builder.Services.AddScoped<AbstractValidator<ProductsDto>, ProductDtoValidator>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
